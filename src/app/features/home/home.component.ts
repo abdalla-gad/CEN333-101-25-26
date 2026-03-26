@@ -15,5 +15,8 @@ export class HomeComponent {
   constructor(public router: Router){
 
   }
+  goToPowerPlant(){
+    this.router.navigateByUrl('/powerplant');
+  }
   
 }

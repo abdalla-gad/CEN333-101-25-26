@@ -1,0 +1,53 @@
+<m-container>
+
+<m-form-ula label="Load Percentage (%)"
+            [class]="getCondition(loadPercent)"
+            result="{{ loadPercent }}"
+            (calculate)="calculate()">
+
+<label>Fuel Type:</label>     
+
+<select [(ngModel)]="fuelType">
+<option value="coal">Coal</option>
+<option value="nuclear">Nuclear</option>
+<option value="solar">Solar</option>
+<option value="wind">Wind</option>
+</select>
+
+<label>Fuel Type:</label>  
+<label>
+    Coal
+    <input type="radio" value="coal" name="fuel" [(ngModel)]="fuelType"/>
+</label>
+<label>
+    Nuclear
+    <input type="radio" value="nuclear" name="fuel" [(ngModel)]="fuelType"/>
+</label>
+
+<label>Rated Capacity (MW):</label>       
+<input type="number" [(ngModel)]="ratedCapacity"/>
+
+<label>Current Load (MW):</label> 
+<input type="number" [(ngModel)]="currentLoad"/>          
+
+<button type="submit" class="pure-button pure-menu-link">Calculate</button>
+
+
+</m-form-ula>
+
+<m-result-box label="Fuel Type" [class]="getCondition(loadPercent)">{{fuelType}}</m-result-box>
+<m-result-box label="Rated Capacity (MW)" [class]="getCondition(loadPercent)">{{ratedCapacity}}</m-result-box>
+<m-result-box label="Current Load (MW)" [class]="getCondition(loadPercent)">{{currentLoad}}</m-result-box>
+
+@if(calculated){
+    @if(loadPercent<40){
+        <m-aha type="warning" header="Underloaded">The plant is running under load</m-aha>
+    }@else if (loadPercent<=getThreshold()) {
+        <m-aha type="success" header="Normal">The plant is running in normal load</m-aha>
+    }@else {
+        <m-aha type="error" header="Overloaded">The plant is running overload</m-aha>
+    }
+}
+</m-container>
+
+
