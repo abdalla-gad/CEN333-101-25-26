@@ -41,6 +41,7 @@ export class MLoginComponent {
       this.signupError = 'Please fill in all fields.';
       return;
     }
+  
     const users = this.getUsers();
     const exists = users.find(u => u.email === this.signupEmail);
     if (exists) {
