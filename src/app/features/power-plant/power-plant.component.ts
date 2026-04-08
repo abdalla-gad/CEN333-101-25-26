@@ -18,6 +18,9 @@ currentLoad: number=0;
 calculated: boolean=false;
 fuelType: string='coal';
 
+constructor(){
+
+}
 getCondition(value: number): string{
   let threshold = this.getThreshold();
 
@@ -46,5 +49,6 @@ getThreshold(): number{
 calculate(){
   this.loadPercent = Math.min(100,(this.currentLoad/this.ratedCapacity)*100);
   this.calculated = true;
+
 }
 }

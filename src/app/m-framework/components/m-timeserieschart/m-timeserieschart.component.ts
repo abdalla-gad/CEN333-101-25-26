@@ -26,8 +26,11 @@ ngOnInit() {
 this.chartId = 'chart-' + Math.random().toString(36).substring(2, 9);
 }
 
+
+
 ngOnChanges(changes: SimpleChanges) {
 if (changes['data'] && this.chart) {
+  
 this.updateChart();
 }
 }
@@ -48,6 +51,7 @@ new Date(a.date).getTime() - new Date(b.date).getTime()
 initChart() {
 const canvas = document.getElementById(this.chartId) as HTMLCanvasElement;
 if (!canvas) return;
+
 
 this.chart = new Chart(canvas, {
 type: 'line',

@@ -1,2 +1,72 @@
-<br><br><br><br><br><br><br>
-<p>cropguard works!</p>
+<m-container>
+<br><br><br><br><br><br>
+   
+<m-main-menu
+[menuitems]="['Log Reading','View Charts','Alerts','Logged Data']"
+(menuclick)="onMenuClick($event)"
+></m-main-menu>
+
+@if(activeSection==="Log Reading"){
+    <h3> Log your readings</h3>
+
+    <label>Date:</label>
+    <input type="date" [(ngModel)]="dateValue">
+    <br>
+    <label>Soil pH (0-14)</label>
+    <input type="number" [(ngModel)]="phValue">
+    <br>
+    <label>Soil Moisture (%)</label>
+    <input type="number" [(ngModel)]="moistureValue">
+    <br>
+    @if (validationError) {
+        <p style="color: red;">{{validationError}}</p>
+    }
+    <br>
+    <button class="pure-button" (click)="saveReading()">Save Reading</button>
+
+
+}
+@if(activeSection==="View Charts"){
+    <h3> Charts Viewing</h3>
+    <m-timeserieschart
+    label="Soil pH"
+    [data]="phReadings"
+    color="#2e7d32"
+    [min] = "0"
+    [max] = "14"
+    unit="pH"
+    ></m-timeserieschart>
+
+
+<m-timeserieschart
+    label="Soil Moisture"
+    [data]="moistureReadings"
+    [color]="'#1565c0'"
+    [min] = "0"
+    [max] = "100"
+    unit="%"
+    ></m-timeserieschart>
+}
+@if(activeSection==="Alerts"){
+    <h3> Active Alerts</h3>
+}
+@if(activeSection==="Logged Data"){
+    <h3> Logged Readings </h3>
+    <m-search-button (search)="filterTerm=$event"></m-search-button>
+    <m-table
+    [data]="phReadings"
+    [showCaption]="true"
+    caption="Soil pH Readings"
+    [filterTerm]="filterTerm"
+    >
+    </m-table>
+
+    <m-table
+    [data]="moistureReadings"
+    [showCaption]="true"
+    caption="Soil moisture Readings"
+    [filterTerm]="filterTerm"
+    >
+    </m-table>
+}
+</m-container>
