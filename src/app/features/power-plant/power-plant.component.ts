@@ -4,6 +4,7 @@ import { MAhaComponent } from '../../m-framework/components/m-aha/m-aha.componen
 import { MFormUlaComponent } from '../../m-framework/components/m-form-ula/m-form-ula.component';
 import { MResultBoxComponent } from '../../m-framework/components/m-result-box/m-result-box.component';
 import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-power-plant',
   standalone: true,
@@ -52,3 +53,4 @@ calculate(){
 
 }
 }
+

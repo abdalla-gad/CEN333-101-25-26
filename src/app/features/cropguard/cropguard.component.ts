@@ -3,13 +3,14 @@ import { MContainerComponent } from "../../m-framework/components/m-container/m-
 import { MMainMenuComponent } from "../../m-framework/components/m-main-menu/m-main-menu.component";
 import { FormsModule } from '@angular/forms';
 import { MTimeseriesChartComponent } from "../../m-framework/components/m-timeserieschart/m-timeserieschart.component";
+import { MAhaComponent } from '../../m-framework/components/m-aha/m-aha.component';
 
 import { MTableComponent } from '../../m-framework/components/m-table/m-table.component';
 import { MSearchButtonComponent } from '../../m-framework/components/m-search-button/m-search-button.component';
 @Component({
   selector: 'app-cropguard',
   standalone: true,
-  imports: [MContainerComponent, MMainMenuComponent, FormsModule, MTimeseriesChartComponent, MTableComponent, MSearchButtonComponent],
+  imports: [MContainerComponent, MMainMenuComponent, FormsModule, MTimeseriesChartComponent, MTableComponent, MSearchButtonComponent,MAhaComponent],
   templateUrl: './cropguard.component.html',
   styleUrl: './cropguard.component.css'
 })
@@ -26,6 +27,9 @@ export class CropguardComponent {
   moistureReadings: {date:string,value:number}[]=[];
   filterTerm:string = '';
   validationError:string ='';
+
+  showAlerts: boolean = false;
+  private alertTimer: any;
   constructor(){
     const ph = localStorage.getItem('phValues');
     this.phReadings = ph ? JSON.parse(ph): [];
@@ -80,5 +84,28 @@ export class CropguardComponent {
     console.log(this.moistureReadings);
     localStorage.setItem('moistureValues',JSON.stringify(this.moistureReadings));
     }
+
+    this.showAlerts = true;
+
+    if (this.alertTimer) clearTimeout(this.alertTimer);
+
+    this.alertTimer = setTimeout(() => {
+      this.showAlerts = false;
+    }, 3000);
+  }
+
+  getLatest(readings: { date: string, value: number }[]) {
+    return readings.length > 0
+      ? readings[readings.length - 1].value : null;
+  }
+
+  isPhAlert(): boolean {
+    const v = this.getLatest(this.phReadings);
+    return v !== null && (v < 5.5 || v > 7.5);
+  }
+
+  isMoistureAlert(): boolean {
+    const v = this.getLatest(this.moistureReadings);
+    return v !== null && (v < 20 || v > 80);
   }
 }

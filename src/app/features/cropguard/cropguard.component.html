@@ -2,7 +2,7 @@
 <br><br><br><br><br><br>
    
 <m-main-menu
-[menuitems]="['Log Reading','View Charts','Alerts','Logged Data']"
+[menuitems]="['Log Reading','View Charts','Logged Data']"
 (menuclick)="onMenuClick($event)"
 ></m-main-menu>
 
@@ -47,9 +47,7 @@
     unit="%"
     ></m-timeserieschart>
 }
-@if(activeSection==="Alerts"){
-    <h3> Active Alerts</h3>
-}
+
 @if(activeSection==="Logged Data"){
     <h3> Logged Readings </h3>
     <m-search-button (search)="filterTerm=$event"></m-search-button>
@@ -69,4 +67,31 @@
     >
     </m-table>
 }
+
+@if (showAlerts) {
+    <div>
+    
+        @if (!isPhAlert() && !isMoistureAlert()) {
+          <m-aha type="success" header="All Clear" >
+            All parameters are within safe ranges.
+          </m-aha>
+        }
+    
+        @if (isPhAlert()) {
+          <m-aha type="error" header="Soil pH Alert" >
+            Latest pH of {{ getLatest(phReadings) }} is outside
+            the safe range (5.5 - 7.5). Soil amendment required.
+          </m-aha>
+        }
+    
+        @if (isMoistureAlert()) {
+          <m-aha type="warning" header="Soil Moisture Alert" >
+            Latest moisture of {{ getLatest(moistureReadings) }}%
+            is outside the safe range (20 - 80%).
+            Check irrigation system.
+          </m-aha>
+        }
+      </div>
+    }
+    
 </m-container>
