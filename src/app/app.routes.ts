@@ -4,10 +4,12 @@ import { PowerPlantComponent } from './features/power-plant/power-plant.componen
 import { CropguardComponent } from './features/cropguard/cropguard.component';
 import { CropguardLoginComponent } from './features/cropguard-login/cropguard-login.component';
 import { authGuard } from './guards/auth.guard';
+import { VitaltrendComponent } from './features/vitaltrend/vitaltrend.component';
 
 export const routes: Routes = [
     {path:'', component:HomeComponent},
     {path:'powerplant',component:PowerPlantComponent},
     {path:'cropguard', component:CropguardComponent, canActivate:[authGuard]},
-    {path:'cropguardlogin',component:CropguardLoginComponent}
+    {path:'cropguardlogin',component:CropguardLoginComponent},
+    {path:'vitaltrend',component:VitaltrendComponent}
 ];

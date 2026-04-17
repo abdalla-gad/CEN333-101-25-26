@@ -94,6 +94,7 @@ export class CropguardComponent {
     }, 3000);
   }
 
+
   getLatest(readings: { date: string, value: number }[]) {
     return readings.length > 0
       ? readings[readings.length - 1].value : null;
@@ -103,6 +104,8 @@ export class CropguardComponent {
     const v = this.getLatest(this.phReadings);
     return v !== null && (v < 5.5 || v > 7.5);
   }
+
+
 
   isMoistureAlert(): boolean {
     const v = this.getLatest(this.moistureReadings);

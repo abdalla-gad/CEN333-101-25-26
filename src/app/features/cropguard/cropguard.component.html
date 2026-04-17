@@ -76,15 +76,23 @@
             All parameters are within safe ranges.
           </m-aha>
         }
+
+        @else if (isMoistureAlert() && isPhAlert()) {
+          <m-aha type="warning" header="Soil Moisture and pH Alert" >
+            Latest moisture and ph
+            are outside the safe range.
+            Check irrigation system.
+          </m-aha>
+        }
     
-        @if (isPhAlert()) {
+        @else if (isPhAlert()) {
           <m-aha type="error" header="Soil pH Alert" >
             Latest pH of {{ getLatest(phReadings) }} is outside
             the safe range (5.5 - 7.5). Soil amendment required.
           </m-aha>
         }
     
-        @if (isMoistureAlert()) {
+        @else if (isMoistureAlert()) {
           <m-aha type="warning" header="Soil Moisture Alert" >
             Latest moisture of {{ getLatest(moistureReadings) }}%
             is outside the safe range (20 - 80%).
