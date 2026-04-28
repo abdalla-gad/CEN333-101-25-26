@@ -1,4 +1,50 @@
 <m-container>
-    <br><br>
-    <button (click)='saveReading()'>Save Reading</button>
-</m-container>
+
+    <h3>Log Patient Reading</h3>
+  
+    <div class="form-group">
+      <label>Patient Age (years):</label>
+      <input type="number" [(ngModel)]="ageInput" name="age">
+    </div>
+  
+    <div class="form-group">
+      <label>Resting Heart Rate (bpm):</label>
+      <input type="number" [(ngModel)]="heartRateInput" name="hr">
+    </div>
+  
+    <button class="save-btn" (click)="saveReading()">
+      Save to Firebase
+    </button>
+    <br>
+    <button class="save-btn" (click)="testRegression()">Test Regression</button>
+
+    <h3>Logged Readings</h3>
+    <m-search-button (search)="filterTerm = $event">
+    </m-search-button>
+  
+    <m-table
+      [data]="readings"
+      [filterTerm]="filterTerm"
+      [showCaption]="true"
+      caption="Patient Readings">
+    </m-table>
+    
+    <h3>Regression Model</h3>
+<div class="form-group">
+  <label>Polynomial Degree:</label>
+  <select [(ngModel)]="selectedDegree" name="deg">
+    <option [value]="1">Degree 1 --- Linear</option>
+    <option [value]="2">Degree 2 --- Quadratic</option>
+    <option [value]="3">Degree 3 --- Cubic</option>
+    <option [value]="4">Degree 4 --- Quartic</option>
+    <option [value]="5">Degree 5 --- Quintic</option>
+  </select>
+</div>
+<m-regressionchart
+  [xData]="ageArray"
+  [yData]="heartRateArray"
+  [degree]="selectedDegree"
+  xLabel="Age (years)"
+  yLabel="Heart Rate (bpm)">
+</m-regressionchart>
+  </m-container>
