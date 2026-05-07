@@ -1,0 +1,8 @@
+.info-window { font-size: 0.9rem; min-width: 220px; max-width: 280px; }
+.info-window h4 { margin: 0 0 0.5rem 0; color: #1A2B4A; }
+.info-window p  { margin: 0.2rem 0; }
+.ai-description {
+  font-style: italic; color: #475569;
+  border-left: 3px solid #1565c0;
+  padding-left: 0.6rem; margin-top: 0.6rem !important;
+}

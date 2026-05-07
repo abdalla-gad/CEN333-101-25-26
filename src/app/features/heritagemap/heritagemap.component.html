@@ -1,0 +1,103 @@
+<m-container>
+    <button (click)="buildHeatMap()">Heat Map</button>
+    <google-map
+    hight="500px"
+    width="100%"
+    [center]="mapCenter"
+    [zoom]="12"
+    (mapClick)="onMapClick($event)"
+    >
+    @if(showHeatmap){
+        <map-heatmap-layer
+        [data]="heatmapPoints"
+        [options]="{radius:150, opacity:0.7}">
+
+        </map-heatmap-layer>
+    }
+    <map-marker
+        title="Your Position"
+        [position]="mapCenter"
+        [options]="{
+            icon: {
+                path:0,
+                scale:8,
+                fillColor: '#FFFFFF',
+                fillOpacity: 0.5,
+                strokeWeight:1,
+                strokeColor:'#000000'
+            }
+        }"
+        >
+    </map-marker>
+
+    @for(site of sites; track site.name){
+        <map-marker
+        [position]="{lat:site.lat, lng:site.lng}"
+        [title]="site.name"
+        [options]="{
+            icon: {
+                path: 0,
+                scale: 10,
+                fillColor: getMarkerColor(site.category),
+                strokeWeight: 2,
+                fillOpacity:1
+            }
+        }"
+        (mapClick)="onMarkerClick(site, marker)"
+        #marker="mapMarker"
+        >
+
+        </map-marker>
+    }
+    
+    <map-info-window>
+        <div>
+            @if(selectedSite){
+            <h1>{{selectedSite.name}}</h1>
+            <p>{{selectedSite.era}}</p>
+            <p>{{selectedSite.category}}</p>
+
+            @if(selectedSite.description){
+                <p>{{selectedSite.description}}</p>
+            }
+            @if(!selectedSite.description){
+                <button (click)="explainSite(selectedSite)" [disabled]="isExplaining">Explain Site</button>
+            }
+            }
+
+            <button (click)="generateRouteToSite(selectedSite)">Generate Route</button>
+        </div>
+    </map-info-window>
+    @if(routePath.length>0){
+    <map-polyline
+    [path]="routePath"
+    [options]="{
+        strokeColor: '#1565c0',
+        strokeWeight: 5,
+    }"
+    >
+        
+    </map-polyline>
+}
+    </google-map>
+
+    <br><br><br>
+    <button (click)="testGemini()">Test Gemini</button>
+    <br><br><br>
+    
+
+    <div>
+        <label>Selected Site Name</label>
+        <input type="text" [(ngModel)]="newSite">
+        <br><br>
+        <label>Selected Site Era</label>
+        <input type="text" [(ngModel)]="newEra">
+        <br><br>
+        <label>Selected Site Category</label>
+        <input type="text" [(ngModel)]="newCategory">
+        <br><br>
+        <button (click)="addSite()">Add Site</button>
+
+        
+    </div>
+</m-container>
