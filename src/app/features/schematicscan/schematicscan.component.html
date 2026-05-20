@@ -1,0 +1,21 @@
+<m-container>
+    <br><br>
+    <input type="file" accept="image/*" (change)="onImport($event)">
+    <br>
+    <img [src]="imagePreview">
+    <br>
+    <p>{{response}}</p>
+    <br>
+    <button (click)="analyzeImageButton()">Analyze Image</button>
+    <br>
+    <button (click)="startCamera()"> Start Camera</button>
+    <br>
+    <button (click)="stopCamera()"> Stop Camera</button>
+    <br>
+    
+<video #video autoplay playsinline ></video>
+<button (click)="captureImage()"> Capture Image</button>
+    <br>
+
+<canvas #canvas style="display:none;"></canvas>
+</m-container>

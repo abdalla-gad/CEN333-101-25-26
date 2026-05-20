@@ -29,5 +29,9 @@ export class HomeComponent {
   goToHeritageMap(){
     this.router.navigateByUrl('/heritagemap')
   }
+
+  goToSchematicScan(){
+    this.router.navigateByUrl('/schematicscan')
+  }
   
 }

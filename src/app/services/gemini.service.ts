@@ -17,7 +17,34 @@ export class GeminiService {
 
     const response = await fetch(url, {
       body: JSON.stringify(body),
-      headers: {'Content-Type': 'applications/json'},
+      headers: {'Content-Type': 'application/json'},
+      method: 'POST'
+    })
+    console.log(response);
+    const data = await response.json();
+    console.log(data);
+    const text = data.candidates[0].content.parts[0].text;
+    console.log(text);
+    return text || 'no response'
+  }
+
+  async analyzeImage(prompt:string, image:string,type:string):Promise<string>{
+    const url = this.endpoint + '?key=' + environment.geminiApiKey;
+
+    const body = {
+      contents: [{
+        parts: [
+          {inlineData: {data:image, mimeType: type}},
+          {text:prompt}]
+      }],
+      generationConfig: {
+        responseMimeType: 'application/json'
+      }
+    };
+
+    const response = await fetch(url, {
+      body: JSON.stringify(body),
+      headers: {'Content-Type': 'application/json'},
       method: 'POST'
     })
     console.log(response);
