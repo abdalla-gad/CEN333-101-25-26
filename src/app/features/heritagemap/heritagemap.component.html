@@ -6,14 +6,9 @@
     [center]="mapCenter"
     [zoom]="12"
     (mapClick)="onMapClick($event)"
+    (mapInitialized)="onMapReady($event)"
     >
-    @if(showHeatmap){
-        <map-heatmap-layer
-        [data]="heatmapPoints"
-        [options]="{radius:150, opacity:0.7}">
-
-        </map-heatmap-layer>
-    }
+    
     <map-marker
         title="Your Position"
         [position]="mapCenter"

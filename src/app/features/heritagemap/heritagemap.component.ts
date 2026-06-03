@@ -1,13 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { MContainerComponent } from "../../m-framework/components/m-container/m-container.component";
-import { GoogleMap, MapMarker, MapInfoWindow, MapPolyline, MapHeatmapLayer } from '@angular/google-maps';
+import { GoogleMap, MapMarker, MapInfoWindow, MapPolyline } from '@angular/google-maps';
 import { GeminiService } from '../../services/gemini.service';
 import { FormsModule } from '@angular/forms';
-
+import { GoogleMapsOverlay } from '@deck.gl/google-maps';
+import { HeatmapLayer } from '@deck.gl/aggregation-layers';
 @Component({
   selector: 'app-heritagemap',
   standalone: true,
-  imports: [MContainerComponent, GoogleMap, MapMarker, MapInfoWindow,FormsModule, MapPolyline,MapHeatmapLayer],
+  imports: [MContainerComponent, GoogleMap, MapMarker, MapInfoWindow,FormsModule, MapPolyline],
   templateUrl: './heritagemap.component.html',
   styleUrl: './heritagemap.component.css'
 })
@@ -146,12 +147,30 @@ export class HeritagemapComponent {
     ]
 
   }
+  private overlay = new GoogleMapsOverlay({});
 
-  buildHeatMap(){
-    this.heatmapPoints= this.sites.map(site=>({
-      location: new google.maps.LatLng(site.lat,site.lng),
-      weight:1
+  onMapReady(map: google.maps.Map) {
+    this.overlay.setMap(map);  
+    
+  }
+  
+  buildHeatMap() {
+    console.log("building heatmap")
+    const points = this.sites.map(site => ({
+      position: [site.lng, site.lat],  
+      weight: 1
     }));
+  
+    const heatmap = new HeatmapLayer({
+      id: 'heatmap',
+      data: points,
+      getPosition: (d: any) => d.position,
+      getWeight: (d: any) => d.weight,
+      radiusPixels: 30,   
+      opacity: 0.7,
+    });
+  
+    this.overlay.setProps({ layers: [heatmap] });
     this.showHeatmap = true;
   }
 
